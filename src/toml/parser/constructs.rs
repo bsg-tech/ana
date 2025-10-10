@@ -109,6 +109,13 @@ impl KeyVal {
         }
     }
 
+    pub fn from_strings(key: &str, val: &str) -> Self {
+        KeyVal {
+            key: String::from(key),
+            val: Value::String(String::from(val)),
+        }
+    }
+
     fn bytes(&self) -> Vec<u8> {
         let mut bv = Vec::new();
 
