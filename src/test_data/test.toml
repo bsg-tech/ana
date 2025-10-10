@@ -1,0 +1,26 @@
+[global]
+keyboard="de"
+country="at"
+fqdn="pveauto.testinstall"
+mailto="mail@no.invalid"
+timezone="Europe/Vienna"
+root-password="12345678"
+root-ssh-keys=[
+    "ssh-ed25519AAAA..."
+]
+
+[network]
+source="from-dhcp"
+
+[disk-setup]
+filesystem="zfs"
+zfs.raid="raid1"
+disk-list=["sda","sdb"]
+
+[post-installation-webhook]
+url="https://my.endpoint.local/postinst"
+cert-fingerprint="AA:E8:CB:95:B1:..."
+
+[first-boot]
+source="from-iso"
+ordering="before-network"
