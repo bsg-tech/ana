@@ -142,13 +142,23 @@ impl Value {
     // Is this the right way to do this?
     fn bytes(&self) -> Vec<u8> {
         match &self {
-            Value::String(string_field) => string_field.as_bytes().to_vec(),
+            Value::String(string_field) => {
+                let mut bv = Vec::new();
+                bv.push(b'\"');
+                bv.extend_from_slice(string_field.as_bytes());
+                bv.push(b'\"');
+
+                bv
+            }
             Value::ArrayOfStrings(arr_field) => {
                 let mut bv = Vec::new();
                 bv.push(b'[');
 
                 for (i, string_val) in arr_field.iter().enumerate() {
+                    bv.push(b'\"');
                     bv.extend_from_slice(string_val.as_bytes());
+                    bv.push(b'\"');
+
                     if i < arr_field.len() - 1 {
                         bv.push(b',');
                     }
