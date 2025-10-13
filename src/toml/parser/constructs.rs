@@ -29,7 +29,12 @@ impl Toml {
         path: &str,
         append: bool,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        let file = OpenOptions::new().append(append).create(true).open(path)?;
+        let file = OpenOptions::new()
+            .append(append)
+            .read(true)
+            .write(true)
+            .create(true)
+            .open(path)?;
 
         // TODO: Is this idiomatic?
         let mut writer = BufWriter::new(file);
@@ -144,9 +149,7 @@ impl Value {
         match &self {
             Value::String(string_field) => {
                 let mut bv = Vec::new();
-                bv.push(b'\"');
                 bv.extend_from_slice(string_field.as_bytes());
-                bv.push(b'\"');
 
                 bv
             }
@@ -155,9 +158,7 @@ impl Value {
                 bv.push(b'[');
 
                 for (i, string_val) in arr_field.iter().enumerate() {
-                    bv.push(b'\"');
                     bv.extend_from_slice(string_val.as_bytes());
-                    bv.push(b'\"');
 
                     if i < arr_field.len() - 1 {
                         bv.push(b',');
