@@ -150,13 +150,13 @@ impl Value {
             Value::String(string_field) => {
                 let mut bv = Vec::new();
                 if !string_field.starts_with("\"") {
-                    bv.push(b'\n');
+                    bv.push(b'"');
                 }
 
                 bv.extend_from_slice(string_field.as_bytes());
 
                 if !string_field.ends_with("\"") {
-                    bv.push(b'\n');
+                    bv.push(b'"');
                 }
 
                 bv
