@@ -4,16 +4,17 @@ use io::prelude::*;
 use std::fs::File;
 use std::io;
 use std::iter::Peekable;
+use std::path::PathBuf;
 
-pub struct TomlScanner {
-    file_path: String,
+pub struct TomlScanner<'a> {
+    file_path: &'a PathBuf,
     pub tokens: Vec<Token>,
 }
 
-impl TomlScanner {
-    pub fn new(file_path: &str) -> Self {
+impl<'a> TomlScanner<'a> {
+    pub fn new(file_path: &'a PathBuf) -> TomlScanner<'a> {
         TomlScanner {
-            file_path: String::from(file_path),
+            file_path,
             tokens: Vec::new(),
         }
     }
@@ -180,7 +181,7 @@ impl TomlScanner {
 
     pub fn scan(&mut self) -> io::Result<()> {
         // first we read the file and print the lines
-        let f = File::open(self.file_path.as_str())?;
+        let f = File::open(&self.file_path)?;
         let reader = io::BufReader::new(f);
         let mut iter = reader.bytes().peekable();
         let mut new_line = true;

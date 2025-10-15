@@ -2,6 +2,7 @@ use std::{
     fmt,
     fs::OpenOptions,
     io::{BufWriter, Write},
+    path::PathBuf,
 };
 
 pub struct Toml {
@@ -26,7 +27,7 @@ impl Toml {
 
     pub fn write_to_file(
         &self,
-        path: &str,
+        path: &PathBuf,
         append: bool,
     ) -> Result<(), Box<dyn std::error::Error>> {
         let file = OpenOptions::new()
